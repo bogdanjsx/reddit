@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from pprint import pprint
 
 COMMENT_LIMIT = 100
-SECONDS_BETWEEN_REQUESTS = 1
+SECONDS_BETWEEN_REQUESTS = 30
 
 class RedditQuery(object):
 	"""docstring for RedditQuery"""

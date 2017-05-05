@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify
-from flask_pymongo import PyMongo
 from argparse import ArgumentParser
 import database
+import pymongo
 import json
 
 app = Flask("redditDb")
-mongo = PyMongo(app)
 
 @app.route("/items/")
 def query():
@@ -17,9 +16,9 @@ def query():
 		return "Error: please supply all parameters"
 
 	query = {'timestamp': {'$gte': startTime, '$lt': endTime}}
-	sort = [('timestamp', -1)]
+	sort = [('timestamp', pymongo.DESCENDING)]
 
-	return jsonify({"data" : list(db.queryItems(subreddit, query))})
+	return jsonify({"data" : list(db.queryItems(subreddit, query, sort))})
 
 @app.errorhandler(404)
 def page_not_found(e):
