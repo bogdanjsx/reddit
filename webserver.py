@@ -1,4 +1,3 @@
-from argparse import ArgumentParser
 import argparse
 import database
 import flask
@@ -31,7 +30,7 @@ def pageNotFound():
 	return 'There\'s nothing here, please access /items/ to get your data.'
 
 if __name__ == '__main__':
-	parser = ArgumentParser()
+	parser = argparse.ArgumentParser()
 	parser.add_argument('--config_file', type = str, default = 'config.json', help = 'Config')
 	args = parser.parse_args()
 
