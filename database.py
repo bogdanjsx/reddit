@@ -1,4 +1,4 @@
-from pymongo import MongoClient, DESCENDING
+from pymongo import MongoClient, IndexModel, DESCENDING, TEXT
 from pprint import pprint
 
 class Database:
@@ -11,12 +11,23 @@ class Database:
 
 	def createIndexes(self):
 		for collection in self.collections:
-			self.collections[collection].create_index([('timestamp', DESCENDING)])
+			timeIndex = IndexModel([('timestamp', DESCENDING)], name = 'timestamp')
+			textIndex = IndexModel(
+					[('title', TEXT), ('text', TEXT)],
+					default_language = 'english',
+					name = 'text',
+					sparse = True # Ignore documents that lack this field
+			)
+
+			self.collections[collection].create_indexes([
+				timeIndex,
+				textIndex
+			])
 
 	def insertItems(self, collection, items):
 		if len(items) == 0:
 			return None
-		return (self.collections[collection]).insert_one(items[0])
+		return (self.collections[collection]).insert(items)
 
 	def queryItems(self, collection, query = {}, sort = [('_id', 1)]):
 		return self.collections[collection].find(query).sort(sort)
@@ -27,25 +38,3 @@ class Database:
 	def clearDatabase(self):
 		for collection in self.collections:
 			self.clearCollection(collection)
-
-
-if __name__ == '__main__':
-	posts = [{
-	  "author": "Mike",
-	  "text": "My first blog post!",
-	  "tags": ["mongodb", "python", "pymongo"]
-	}, {
-	  "author": "Zeu",
-	  "text": "My first blog post!",
-	  "tags": ["mongos", "java"]
-	}]
-
-	# db = Database()
-	# db.insertItems('submissions', posts)
-	# for s in db.queryItems('submissions'):
-	# 	pprint(s)
-	# db.clearCollection('submissions')
-	# for s in db.queryItems('submissions'):
-	# 	pprint(s)
-
-

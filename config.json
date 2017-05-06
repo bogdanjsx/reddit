@@ -5,5 +5,5 @@
 		"clientSecret": "NNqxanZUIseAdXR8qu8uSKzM4ww",
 		"userAgent": "script:reddit_challenge_app"
 	},
-	"subreddits": ["leagueoflegends", "soccer"]
+	"subreddits": ["leagueoflegends", "soccer", "worldnews", "politics"]
 }

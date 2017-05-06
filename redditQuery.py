@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from pprint import pprint
 
 COMMENT_LIMIT = 100
-SECONDS_BETWEEN_REQUESTS = 30
+SECONDS_BETWEEN_REQUESTS = 10
 
 class RedditQuery(object):
 	"""docstring for RedditQuery"""
@@ -44,20 +44,19 @@ class RedditQuery(object):
 				submissions = [self.formatSubmission(submission, subreddit)
 					for submission in data['instance'].submissions(start = data['updated'])]
 
-				print("inserting submissions")
-				print(len(submissions))
-				self.db.insertItems(subreddit, submissions)
-
 				comments = [self.formatComment(comment, subreddit)
 					for comment in data['instance'].comments(limit = COMMENT_LIMIT)
 					if comment.created_utc > data['updated']]
 
-				print("inserting comments")
-				print(len(comments))
-				self.db.insertItems(subreddit, comments)
-
 				data['updated'] = time.time()
 
+				submisssionsInserted = len(submissions)
+				commentsInserted = len(comments)
+
+				self.db.insertItems(subreddit, submissions + comments)
+
+				print ("Inserted %d submissions and %d comments into %s." %
+					(submisssionsInserted, commentsInserted, subreddit))
 
 	def formatComment(self, comment, subreddit):
 		return {
@@ -76,7 +75,7 @@ class RedditQuery(object):
 			'author': submission.author.name,
 			'score': submission.score,
 			'subreddit': subreddit,
-			'text': submission.selftext,
+			# 'text': submission.selftext,
 			'title': submission.title,
 			'timestamp': submission.created_utc,
 			'type': 'submission',
