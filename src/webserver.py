@@ -9,12 +9,15 @@ app = flask.Flask(__name__)
 def query():
 	"""Query the database for the requested subreddit."""
 	subreddit = flask.request.args.get('subreddit')
-	startTime = int(flask.request.args.get('from'))
-	endTime = int(flask.request.args.get('to'))
+	startTime = flask.request.args.get('from')
+	endTime = flask.request.args.get('to')
 	keyword = flask.request.args.get('keyword')
 
 	if subreddit == None or startTime == None or endTime == None:
-		return 'Error: please supply all parameters'
+		return pageNotFound()
+
+	startTime = int(startTime)
+	endTime = int(endTime)
 
 	query = {'timestamp': {'$gte': startTime, '$lt': endTime}}
 	if keyword != None:
@@ -22,12 +25,24 @@ def query():
 
 	sort = [('timestamp', database.DESCENDING)]
 
-	return flask.jsonify({'data' : list(db.queryItems(subreddit, query, sort))})
+	response = flask.jsonify({
+		'data' : list(db.queryItems(subreddit, query, sort)),
+		'status': 200
+	})
+	response.status_code = 200
+
+	return response
 
 @app.errorhandler(404)
 def pageNotFound():
 	"""Standard 404 handler"""
-	return 'There\'s nothing here, please access /items/ to get your data.'
+	response = flask.jsonify({
+		'message': 'There\'s nothing here, please access /items/ to get your data.',
+		'status': 404,
+	})
+	response.status_code = 404
+
+	return response
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()

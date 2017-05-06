@@ -32,12 +32,16 @@ class Database(object):
 
 	def insertItems(self, collection, items):
 		"""Inserts items into collection."""
-		if len(items) == 0:
-			return None
+		if len(items) == 0 or collection not in self.collections:
+			return []
+
 		return (self.collections[collection]).insert(items)
 
 	def queryItems(self, collection, query = {}, sort = [('_id', 1)]):
 		"""Performs the query on collection."""
+		if collection not in self.collections:
+			return []
+
 		return self.collections[collection].find(query).sort(sort)
 
 	def clearCollection(self, collection):
