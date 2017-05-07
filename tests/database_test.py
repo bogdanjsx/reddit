@@ -1,11 +1,13 @@
 import unittest
 import src.database as database
-from pprint import pprint
+import pymongo
 
 class DatabaseTest(unittest.TestCase):
 	def setUp(self):
 		"""Set up database"""
-		self.db = database.Database('testing', ['tdd'])
+		self.dbName = 'testing'
+		self.db = database.Database(self.dbName, ['tdd'])
+		self.mongo = pymongo.MongoClient()
 
 	def testInsert(self):
 		"""It should insert the items in the database."""
@@ -16,14 +18,14 @@ class DatabaseTest(unittest.TestCase):
 		}]
 
 		self.db.insertItems('tdd', items)
-		result = list(self.db.queryItems('tdd'))
+		result = list(self.mongo[self.dbName].tdd.find())
 
 		self.assertEqual(result, items, 'Items not inserted properly')
 
 	def testEmptyInsert(self):
 		"""Empty inserts should work."""
 		self.db.insertItems('tdd', [])
-		result = list(self.db.queryItems('tdd'))
+		result = list(self.mongo[self.dbName].tdd.find())
 
 		self.assertEqual(result, [], 'Empty insert not working')
 
@@ -47,14 +49,18 @@ class DatabaseTest(unittest.TestCase):
 			'brebex': 'tdd'
 		}]
 
-		self.db.insertItems('tdd', items)
+		self.mongo[self.dbName].tdd.insert(items)
 		self.db.clearCollection('tdd')
-		result = list(self.db.queryItems('tdd'))
+		result = list(self.mongo[self.dbName].tdd.find())
 
 		self.assertEqual(result, [], 'Items not deleted properly')
 
 	def tearDown(self):
-		self.db.clearDatabase()
+		"""Drop the database (no pun intended)"""
+		self.mongo.drop_database(self.dbName)
+
+def test_run():
+	unittest.main(exit = False)
 
 if __name__ == '__main__':
-	unittest.main()
+	test_run()

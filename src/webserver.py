@@ -4,6 +4,11 @@ import flask
 import json
 
 app = flask.Flask(__name__)
+db = None
+
+def initDatabase(configData):
+	global db
+	db = database.Database(configData['databaseName'], configData['subreddits'])
 
 @app.route('/items/')
 def query():
@@ -14,7 +19,7 @@ def query():
 	keyword = flask.request.args.get('keyword')
 
 	if subreddit == None or startTime == None or endTime == None:
-		return pageNotFound()
+		return pageNotFound(True)
 
 	startTime = int(startTime)
 	endTime = int(endTime)
@@ -34,7 +39,7 @@ def query():
 	return response
 
 @app.errorhandler(404)
-def pageNotFound():
+def pageNotFound(_):
 	"""Standard 404 handler"""
 	response = flask.jsonify({
 		'message': 'There\'s nothing here, please access /items/ to get your data.',
@@ -52,5 +57,5 @@ if __name__ == '__main__':
 	with open(args.config_file) as configFile:
 		configData = json.load(configFile)
 
-	db = database.Database(configData['databaseName'], configData['subreddits'])
+	initDatabase(configData)
 	app.run()

@@ -1,0 +1,13 @@
+{
+	"commentLimit": 100,
+	"databaseName": "testing",
+	"numThreads": 4,
+	"pollingInterval": 1,
+	"redditCredentials": {
+		"clientId": "XFH9lPjyKVkMRA",
+		"clientSecret": "NNqxanZUIseAdXR8qu8uSKzM4ww",
+		"userAgent": "script:reddit_challenge_app"
+	},
+	"subreddits": ["leagueoflegends", "soccer", "worldnews", "politics"],
+	"verbose": false
+}

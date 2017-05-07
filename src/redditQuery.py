@@ -52,7 +52,10 @@ class RedditQuery(object):
 					for idx in range(len(subreddits))
 					if idx % self.numThreads == threadNo
 				}
-				thread = threading.Thread(target=self.pollingWorker, args=(subredditSlice,str(threadNo)))
+				thread = threading.Thread(
+					target = self.pollingWorker,
+					args = (subredditSlice, str(threadNo))
+				)
 				threads.append(thread)
 				thread.start()
 
@@ -64,7 +67,6 @@ class RedditQuery(object):
 		"""Function for the worker threads, should never be called from outside the class."""
 		while(True):
 			time.sleep(self.pollingInterval)
-
 			for subreddit in subreddits:
 				data = subreddits[subreddit]
 
