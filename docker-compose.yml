@@ -1,0 +1,17 @@
+server:
+  build: .
+  dockerfile: Dockerfile.server
+  command: python2.7 src/webserver.py
+  volumes:
+    - .:/reddit
+  ports:
+    - "5000:5000"
+  links:
+    - db
+db:
+  build: .
+  dockerfile: Dockerfile.db
+  ports:
+    - "27017:27017"
+  environment:
+    - AUTH = "no"

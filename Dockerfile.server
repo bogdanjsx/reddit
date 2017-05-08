@@ -1,0 +1,17 @@
+############################################################
+# Dockerfile to build the Python app
+############################################################
+
+FROM python:2.7
+
+MAINTAINER Bogdan Stefan
+
+COPY . /reddit
+
+WORKDIR /reddit
+
+RUN pip install -r server_requirements.txt
+
+EXPOSE 5000
+
+CMD ["python", "src/webserver.py"]

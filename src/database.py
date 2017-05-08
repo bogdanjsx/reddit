@@ -5,13 +5,15 @@ DESCENDING = pymongo.DESCENDING
 class Database(object):
 	"""Database abstraction class. Provides an interface for CRUD operations on an
 			internal database."""
-	def __init__(self, name, collections):
+	def __init__(self, name, collections, createIndexes = True):
 		"""Connects to the underlying database and performs initializations."""
 		self.db = pymongo.MongoClient()[name]
 		self.collections = {
 			collection: self.db[collection] for collection in collections
 		}
-		self.createIndexes()
+
+		if createIndexes:
+			self.createIndexes()
 
 	def createIndexes(self):
 		"""Create indexes on the database for faster queries."""

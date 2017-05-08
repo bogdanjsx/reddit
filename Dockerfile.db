@@ -1,0 +1,19 @@
+############################################################
+# Dockerfile for the mongodb database
+############################################################
+
+FROM mongo:3.0
+
+MAINTAINER Bogdan Stefan
+
+# Define mountable directories.
+VOLUME ["/reddit"]
+
+# Define working directory.
+WORKDIR /reddit
+
+# Expose default mongo ports
+EXPOSE 27017
+EXPOSE 28017
+
+CMD ["mongod"]

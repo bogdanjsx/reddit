@@ -6,9 +6,9 @@ import json
 app = flask.Flask(__name__)
 db = None
 
-def initDatabase(configData):
+def initDatabase(configData, createIndexes):
 	global db
-	db = database.Database(configData['databaseName'], configData['subreddits'])
+	db = database.Database(configData['databaseName'], configData['subreddits'], createIndexes)
 
 @app.route('/items/')
 def query():
@@ -57,5 +57,5 @@ if __name__ == '__main__':
 	with open(args.config_file) as configFile:
 		configData = json.load(configFile)
 
-	initDatabase(configData)
-	app.run()
+	initDatabase(configData, False)
+	app.run(threaded = True)

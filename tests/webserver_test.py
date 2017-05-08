@@ -13,7 +13,7 @@ class RedditQueryTest(unittest.TestCase):
 
 		with open('tests/test_config.json') as configFile:
 			configData = json.load(configFile)
-		webserver.initDatabase(configData)
+		webserver.initDatabase(configData, True)
 
 		self.items = [{
 			'_id': 0,

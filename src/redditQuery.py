@@ -34,7 +34,6 @@ class RedditQuery(object):
 
 	def startPolling(self):
 		"""Starts calling the Reddit API to fetch submissions and comments."""
-		self.db.clearDatabase()
 
 		# If only one thread is needed, start polling from the master thread.
 		if self.numThreads == 1:
