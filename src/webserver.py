@@ -58,4 +58,4 @@ if __name__ == '__main__':
 		configData = json.load(configFile)
 
 	initDatabase(configData, False)
-	app.run(threaded = True)
+	app.run(threaded = True, host = '0.0.0.0')

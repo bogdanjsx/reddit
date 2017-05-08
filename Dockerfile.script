@@ -1,5 +1,5 @@
 ############################################################
-# Dockerfile for the Flask server
+# Dockerfile for the reddit query script
 ############################################################
 
 FROM python:2.7
@@ -13,6 +13,6 @@ COPY . /reddit
 WORKDIR /reddit
 
 # Install needed python packages.
-RUN pip install -r server_requirements.txt
+RUN pip install -r script_requirements.txt
 
-CMD ['python', 'src/webserver.py']
+CMD ['python', 'src/redditQuery.py']

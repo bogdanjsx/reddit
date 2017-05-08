@@ -56,6 +56,7 @@ Aceasta este cea mai simpla componenta. Am folosit Flask, iar serverul stie
 doar sa raspunda la request-uri de pe ruta /items/. Daca unul din parametri
 lipseste sau este accesata alta ruta, el raspunde cu 404.
 Pentru a returna datele necesare, el face doar un query la baza de date interna.
+Serverul este si el threaded, deci poate servi mai multe request-uri.
 
 
 
@@ -78,7 +79,11 @@ Am structurat fisierele cu teste astfel incat sa poata fi rulate cu runnerul nos
 
 
 Stage 4:
--TODO DOCKER-
+Am creat cate un Dockerfile pentru fiecare proces.
+Cel pentru db extinde imaginea oficiala de mongodb, iar celelalte extind imaginea de
+Python 2.7. Fiecare are in *_requirements.txt pachetele de pip necesare.
+In plus, exista si un fisier docker-compose.yml care leaga cele 3 containere.
+
 
 Am incercat sa scriu codul fara un linter, ca sa vad daca-mi pot mentine un stil constant
 pe toata aplicatia. Am folosit:
@@ -90,5 +95,5 @@ snake case)
 - imports si dict keys in ordine alfabetica
 
 A fost un challenge interesant, din care am invatat chestii cool. Cred ca cea mai dificila
-parte a fost stage 4, unde mi-am batut capul ceva timp cu Docker. Sunt sigur ca se pot aduce
-imbunatatiri multe aplicatiei, atat din punct de vedere al arhitecturii cat si al performantei.
+parte a fost stage 4, unde mi-am batut capul ceva timp cu hostname-uri si porturi. Sunt sigur
+ca se pot aduce imbunatatiri multe aplicatiei, atat din punct de vedere al arhitecturii cat si al performantei.

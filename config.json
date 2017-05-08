@@ -2,7 +2,7 @@
 	"commentLimit": 100,
 	"databaseName": "redditDb",
 	"numThreads": 4,
-	"pollingInterval": 10,
+	"pollingInterval": 30,
 	"redditCredentials": {
 		"clientId": "XFH9lPjyKVkMRA",
 		"clientSecret": "NNqxanZUIseAdXR8qu8uSKzM4ww",

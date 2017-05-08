@@ -1,17 +1,29 @@
 server:
   build: .
   dockerfile: Dockerfile.server
+  environment:
+    - PROD=1
   command: python2.7 src/webserver.py
-  volumes:
-    - .:/reddit
   ports:
     - "5000:5000"
   links:
     - db
+
+script:
+  build: .
+  dockerfile: Dockerfile.script
+  environment:
+    - PROD=1
+  command: python2.7 src/redditQuery.py
+  links:
+    - db
+
 db:
   build: .
-  dockerfile: Dockerfile.db
+  dockerfile: Dockerfile.database
+  environment:
+    - PROD=1
   ports:
     - "27017:27017"
   environment:
-    - AUTH = "no"
+    - AUTH="no"

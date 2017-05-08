@@ -108,11 +108,10 @@ class RedditQuery(object):
 			'author': submission.author.name,
 			'score': submission.score,
 			'subreddit': subreddit,
-			# 'text': submission.selftext,
 			'title': submission.title,
 			'timestamp': submission.created_utc,
 			'type': 'submission',
-			'url': submission.selftext_url,
+			'url': submission.url,
 		}
 
 if __name__ == '__main__':

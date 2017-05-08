@@ -1,4 +1,5 @@
 import pymongo
+import os
 
 DESCENDING = pymongo.DESCENDING
 
@@ -7,7 +8,13 @@ class Database(object):
 			internal database."""
 	def __init__(self, name, collections, createIndexes = True):
 		"""Connects to the underlying database and performs initializations."""
-		self.db = pymongo.MongoClient()[name]
+
+		# Adjust hostname if running in docker (production)
+		hostname ='localhost'
+		if 'PROD' in os.environ and os.environ['PROD']:
+			hostname = 'db'
+
+		self.db = pymongo.MongoClient(host=hostname)[name]
 		self.collections = {
 			collection: self.db[collection] for collection in collections
 		}
