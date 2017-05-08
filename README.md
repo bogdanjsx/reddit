@@ -10,3 +10,9 @@ sudo docker-compose up
 ```
 
 This uses port 27017 for the database and 5000 for the webserver.
+
+To run the test suite use:
+```
+sudo pip install nose
+nosetests
+```
